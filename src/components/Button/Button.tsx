@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = "primary", size = "md"
 
     return <button 
         className={clsx(
-            `${paddings[size]} flex items-center gap-2 bg-blue-400 text-white ${textSizes[size]} focus-within:ring-2 ring-blue-300 rounded-sm mix-blend-difference`,
+            `${paddings[size]} flex items-center gap-2 bg-blue-400 text-white ${textSizes[size]} focus-within:ring-2 ring-blue-300 rounded-sm`,
             isDisabled ? "opacity-50 pointer-events-none" : "hover:bg-blue-500 focus:bg-blue-600",
             className,
         )} 
