@@ -2,13 +2,14 @@
 export default {
   content: [
     "./index.html",
-    "./src/stories/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       borderRadius: {
         "sm": "0.25rem",
-      }
+      },
+
     },
   },
   plugins: [],
