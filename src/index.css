@@ -5,3 +5,11 @@
 body {
     font-family: "Satoshi", sans-serif;
 }
+
+@layer utilities {
+    .absolute-center {
+        position: absolute;
+        inset: 0; 
+        margin: auto;
+    }
+}
