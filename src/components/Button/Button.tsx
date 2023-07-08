@@ -3,8 +3,8 @@ import { clsx } from "clsx";
 import type { ComponentProps } from "react";
 import type { Size } from "../../types/common";
 
-type ButtonVariant = "danger" | "primary" | "secondary" | "warning";
-type ButtonSize = Exclude<Size, "xl">;
+export type ButtonVariant = "danger" | "primary" | "secondary" | "warning";
+export type ButtonSize = Exclude<Size, "xl">;
 
 export type ButtonProps = ComponentProps<"button"> & {
     variant?: ButtonVariant;
