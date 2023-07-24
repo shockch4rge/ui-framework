@@ -3,8 +3,8 @@ import { clsx } from "clsx";
 import type { ComponentProps } from "react";
 import type { Size } from "../../types/common";
 
-type ButtonVariant = "danger" | "primary" | "secondary" | "warning";
-type ButtonSize = Exclude<Size, "xl">;
+export type ButtonVariant = "danger" | "primary" | "secondary" | "warning";
+export type ButtonSize = Exclude<Size, "xl">;
 
 export type ButtonProps = ComponentProps<"button"> & {
     variant?: ButtonVariant;
@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = "primary", size = "md"
 
     return <button 
         className={clsx(
-            `${paddings[size]} flex items-center gap-2 bg-blue-400 text-white ${textSizes[size]} focus-within:ring-2 ring-blue-300 rounded-sm mix-blend-difference`,
+            `${paddings[size]} flex items-center gap-2 bg-blue-400 text-white ${textSizes[size]} focus-within:ring-2 ring-blue-300 rounded-sm`,
             isDisabled ? "opacity-50 pointer-events-none" : "hover:bg-blue-500 focus:bg-blue-600",
             className,
         )} 
