@@ -1,15 +1,12 @@
-import { clsx } from "clsx";
-import { motion } from "framer-motion";
-
 import { X } from "@phosphor-icons/react";
 import * as RDialog from "@radix-ui/react-dialog";
-
+import { clsx } from "clsx";
+import { motion } from "framer-motion";
+import type { ElementRef } from "react";
+import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from "react";
+import type { NoChildren, Size } from "../../types/common";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
-
-import type { ComponentProps, ComponentPropsWithoutRef } from "react";
-
-import type { NoChildren, Size } from "../../types/common";
 
 
 export type DialogCloseProps = ComponentPropsWithoutRef<"button"> & (NoChildren<{
@@ -49,25 +46,25 @@ export const DialogClose: React.FC<DialogCloseProps> = ({ children, className, a
     </RDialog.Close>;
 };
 
-export const DialogTitle: React.FC<DialogTitleProps> = ({ children, className, ...props }) => {
-    return <RDialog.Title className={clsx("text-xl font-bold", className)} {...props}>{children}</RDialog.Title>;
-};
+export const DialogTitle = forwardRef<ElementRef<"h3">, DialogTitleProps>(({ children, className, ...props }, ref) => {
+    return <RDialog.Title ref={ref} className={clsx("text-xl font-bold", className)} {...props}>{children}</RDialog.Title>;
+});
 
-export const DialogDescription: React.FC<DialogDescriptionProps> = ({ children, className, ...props }) => {
-    return <RDialog.Description className={clsx("mt-6 text-gray-600", className)} {...props}>{children}</RDialog.Description>;
-};
+export const DialogDescription = forwardRef<ElementRef<"p">, DialogDescriptionProps>(({ children, className, ...props }, ref) => {
+    return <RDialog.Description ref={ref} className={clsx("mt-6 text-gray-600", className)} {...props}>{children}</RDialog.Description>;
+});
 
-export const DialogBody: React.FC<DialogBodyProps> = ({ children, ...props }) => {
-    return <div {...props}>
+export const DialogBody = forwardRef<ElementRef<"div">, DialogBodyProps>(({ children, ...props }, ref) => {
+    return <div ref={ref} {...props}>
         {children}
     </div>;
-};
+});
 
-export const DialogFooter: React.FC<DialogFooterProps> = ({ children, className, ...props }) => {
+export const DialogFooter = forwardRef<ElementRef<"footer">, DialogFooterProps>(({ children, className, ...props }, ref) => {
     return <footer className={clsx("mt-8", className)} {...props}>
         {children}
     </footer>;
-};
+});
 
 export const Dialog: React.FC<DialogProps> = ({ size = "lg", open, position = "c", children, onClose, onOpen }) => {
     const sizes: Record<NonNullable<DialogSize>, string> = {
@@ -112,7 +109,10 @@ export const Dialog: React.FC<DialogProps> = ({ size = "lg", open, position = "c
         </RDialog.Trigger>
         <RDialog.Portal>
             <RDialog.Overlay />
-            <RDialog.Content className={`${sizes[size]} max-h-fit p-8 bg-white shadow-md rounded-sm absolute ${positions[position]}`} asChild>
+            <RDialog.Content 
+                className={`${sizes[size]} max-h-fit p-8 bg-white shadow-md rounded-sm absolute ${positions[position]}`} 
+                asChild
+            >
                 <motion.div
                     initial={{ 
                         opacity: 0, 

@@ -1,5 +1,6 @@
 import { CircleNotch } from "@phosphor-icons/react";
 import { clsx } from "clsx";
+import type { ElementRef } from "react";
 import { forwardRef, type ComponentPropsWithRef } from "react";
 import type { Size } from "../../types/common";
 
@@ -27,7 +28,7 @@ const textSizes: Record<ButtonSize, string> = {
     lg: "text-lg",
 };
 
-export const Button: React.FC<ButtonProps> = forwardRef(({ variant = "primary", size = "md", loading = false, children, disabled, className, ...props }, ref) => {
+export const Button = forwardRef<ElementRef<"button">, ButtonProps>(({ variant = "primary", size = "md", loading = false, children, disabled, className, ...props }, ref) => {
     const isDisabled = disabled || loading;    
 
     return <button 

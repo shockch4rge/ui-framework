@@ -1,8 +1,8 @@
-import * as RSelect from "@radix-ui/react-select";
-import type { ComponentProps, ComponentPropsWithRef, PropsWithChildren, RefFC } from "react";
-import { forwardRef } from "react";
-import { clsx } from "clsx";
 import { CaretDown, CaretUp, Check } from "@phosphor-icons/react";
+import * as RSelect from "@radix-ui/react-select";
+import { clsx } from "clsx";
+import type { ComponentProps, ComponentPropsWithRef, ElementRef, PropsWithChildren } from "react";
+import { forwardRef } from "react";
 
 export type SelectProps = ComponentProps<"button"> & PropsWithChildren<{
 	defaultValue?: string;
@@ -12,12 +12,12 @@ export type SelectProps = ComponentProps<"button"> & PropsWithChildren<{
 	// TODO: multi-select menu
 }>;
 
-export const Select: React.FC<SelectProps> = ({ children, onSelect, placeholder, className, icon, ...props }) => 
-    <RSelect.Root onValueChange={onSelect}>
+export const Select = forwardRef<ElementRef<"div">, SelectProps>(({ children, onSelect, placeholder, className, icon, ...props }) => {
+    return <RSelect.Root onValueChange={onSelect}>
         <RSelect.Trigger
             aria-label={props["aria-label"]}
             className={clsx(
-                "w-52 h-10 px-4 bg-white hover:bg-gray-100 flex items-center justify-between gap-3 leading-none rounded-sm data-[placeholder]:max-w-prose data-[placeholder]:truncate", 
+                "w-52 h-10 px-4 bg-white hover:bg-gray-100 flex items-center justify-between gap-3 leading-none rounded-sm data-[placeholder]:max-w-prose data-[placeholder]:truncate",
                 className
             )}
         >
@@ -39,19 +39,19 @@ export const Select: React.FC<SelectProps> = ({ children, onSelect, placeholder,
                 </RSelect.ScrollDownButton>
             </RSelect.Content>
         </RSelect.Portal>
-    </RSelect.Root>
-;
+    </RSelect.Root>;
+});
 
 export type SelectItemGroupProps = ComponentProps<"div"> & PropsWithChildren<{
     label: string;
 }>;
 
-export const SelectSeparator: React.FC = () => {
-    return <RSelect.Separator className="h-[1px] m-2 bg-gray-200" />;
-};
+export const SelectSeparator = forwardRef<ElementRef<"div">, ComponentPropsWithRef<"div">>((props, ref) => {
+    return <RSelect.Separator ref={ref} className="h-[1px] m-2 bg-gray-200" {...props}/>;
+});
 
-export const SelectItemGroup: React.FC<SelectItemGroupProps> = ({ children, label, className }) => {
-    return <RSelect.Group>
+export const SelectItemGroup = forwardRef<ElementRef<"div">, SelectItemGroupProps>(({ children, label, className }, ref) => {
+    return <RSelect.Group ref={ref}>
         <RSelect.Label className={clsx(
             "my-0.5 pl-8 text-lg font-bold tracking-wide leading-8", 
             className
@@ -60,7 +60,7 @@ export const SelectItemGroup: React.FC<SelectItemGroupProps> = ({ children, labe
         </RSelect.Label>
         {children}
     </RSelect.Group>;
-};
+});
 
 export type SelectItemProps = ComponentPropsWithRef<"div"> & PropsWithChildren<{
     value: string;
@@ -68,7 +68,7 @@ export type SelectItemProps = ComponentPropsWithRef<"div"> & PropsWithChildren<{
 	checkedIcon?: React.ReactNode;
 }>;
 
-export const SelectItem: RefFC<SelectItemProps> = forwardRef(({ children, className, ...props }, ref) => {
+export const SelectItem = forwardRef<ElementRef<"div">, SelectItemProps>(({ children, className, ...props }, ref) => {
     return (
         <RSelect.Item
             ref={ref}

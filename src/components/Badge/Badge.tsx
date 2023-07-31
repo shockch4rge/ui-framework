@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
-import type { ComponentProps, PropsWithChildren } from "react";
+import type { ElementRef } from "react";
+import { forwardRef, type ComponentProps, type PropsWithChildren } from "react";
 import type { Size } from "../../types/common";
 
 type BadgeSize = Exclude<Size, "xl">;
@@ -25,8 +26,9 @@ const textSizes: Record<BadgeSize, string> = {
     lg: "text-lg",
 };
 
-export const Badge: React.FC<BadgeProps> = ({ children, className, icon, size = "sm", iconPosition = "right", shape = "pill", ...props }) => {
+export const Badge = forwardRef<ElementRef<"div">, BadgeProps>(({ children, className, icon, size = "sm", iconPosition = "right", shape = "pill", ...props }, ref) => {
     return <div 
+        ref={ref}
         className={clsx(
             `${paddings[size]} flex items-center justify-between ${textSizes[size]} font-semibold gap-2`, 
             shape === "pill" ? "rounded-full" : "rounded-sm", 
@@ -38,4 +40,4 @@ export const Badge: React.FC<BadgeProps> = ({ children, className, icon, size = 
         {children}
         {iconPosition === "right" && icon}
     </div>;
-};
+});
