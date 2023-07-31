@@ -1,7 +1,7 @@
 import * as RTooltip from "@radix-ui/react-tooltip";
 import { clsx } from "clsx";
-import { createContext, type ComponentPropsWithRef, useContext } from "react";
-import type { Modify } from "../../types/common";
+import type { ElementRef } from "react";
+import { createContext, type ComponentPropsWithRef, useContext, forwardRef } from "react";
 
 export type SharedToolTipProps = {
     delayDuration?: number;
@@ -15,11 +15,11 @@ export type TooltipTriggerProps = ComponentPropsWithRef<"div">;
 
 export type TooltipContentProps = ComponentPropsWithRef<"div">;
 
-export const TooltipTrigger: React.FC<TooltipTriggerProps> = ({ children }) => {
-    return <RTooltip.Trigger asChild>
+export const TooltipTrigger = forwardRef<ElementRef<"button">, TooltipTriggerProps>(({ children }, ref) => {
+    return <RTooltip.Trigger ref={ref} asChild>
         {children}
     </RTooltip.Trigger>;
-};
+});
 
 const defaultProps = {
     side: "top",
@@ -29,11 +29,12 @@ const defaultProps = {
 
 export const TooltipContext = createContext<Required<SharedToolTipProps> & TooltipProps>(defaultProps);
 
-export const TooltipContent: React.FC<TooltipContentProps> = ({ children, ...props }) => {
+export const TooltipContent = forwardRef<ElementRef<"div">, TooltipContentProps>(({ children, ...props }, ref) => {
     const { side, hasArrow } = useContext(TooltipContext);
 
     return <RTooltip.Portal>
         <RTooltip.Content 
+            ref={ref}
             className={clsx(
                 "px-4 py-2.5 items-center rounded-sm select-none",
                 "border-2 dark:border-none border-solid border-slate-300 shadow-lg",
@@ -41,7 +42,8 @@ export const TooltipContent: React.FC<TooltipContentProps> = ({ children, ...pro
             )}
             side={side}
             align="center" 
-            sideOffset={6} 
+            sideOffset={6}
+            {...props}
         >
             {hasArrow && <RTooltip.Arrow className="fill-current text-slate-300 dark:text-gray-800" />}
             <p className="text-sm leading-none text-gray-700 dark:text-gray-300">
@@ -49,7 +51,7 @@ export const TooltipContent: React.FC<TooltipContentProps> = ({ children, ...pro
             </p>
         </RTooltip.Content>
     </RTooltip.Portal>;
-};
+});
 
 export const Tooltip: React.FC<TooltipProps> = ({ children, ...props }) => {
     return <RTooltip.Provider>

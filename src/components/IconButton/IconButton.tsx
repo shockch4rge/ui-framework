@@ -1,7 +1,9 @@
-import { clsx } from "clsx";
-import type { ButtonProps, ButtonSize } from "../Button/Button";
-import type { Modify } from "../../types/common";
 import { CircleNotch } from "@phosphor-icons/react";
+import { clsx } from "clsx";
+import type { ElementRef } from "react";
+import { forwardRef } from "react";
+import type { Modify } from "../../types/common";
+import type { ButtonProps, ButtonSize } from "../Button/Button";
 
 export type IconButtonProps = Modify<ButtonProps, {
     shape?: "chip" | "round";
@@ -23,7 +25,7 @@ const iconSizes: Record<ButtonSize, string> = {
     lg: "text-xl",
 };
 
-export const IconButton: React.FC<IconButtonProps> = ({ 
+export const IconButton = forwardRef<ElementRef<"button">, IconButtonProps>(({ 
     children, 
     className, 
     size = "md",
@@ -32,10 +34,11 @@ export const IconButton: React.FC<IconButtonProps> = ({
     loading = false, 
     loadingIcon = <CircleNotch className="animate-spin text-xl" weight="bold" />,
     ...props 
-}) => {
+}, ref) => {
     const isDisabled = disabled || loading;
 
     return <button 
+        ref={ref}
         className={clsx(
             "flex items-center gap-2 bg-blue-400 text-white focus-within:ring-2 ring-blue-300 mix-blend-exclusion",
             `${paddings[size]} ${iconSizes[size]}`,
@@ -47,4 +50,4 @@ export const IconButton: React.FC<IconButtonProps> = ({
     >
         {loading ? loadingIcon : children}
     </button>;
-};
+});

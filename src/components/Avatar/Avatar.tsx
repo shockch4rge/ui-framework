@@ -1,8 +1,9 @@
-import type { ComponentProps, ComponentPropsWithoutRef } from "react";
-import type { NoChildren, Size } from "../../types/common";
-import { clsx } from "clsx";
 import * as RAvatar from "@radix-ui/react-avatar";
+import { clsx } from "clsx";
+import type { ElementRef } from "react";
+import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from "react";
 import flattenChildren from "react-keyed-flatten-children";
+import type { NoChildren, Size } from "../../types/common";
 
 export type AvatarSize = Size;
 
@@ -26,9 +27,10 @@ const avatarSizes: Record<AvatarSize, string> = {
     xl: "w-36 h-36",
 };
 
-export const Avatar: React.FC<AvatarProps> = ({ src, alt, size = "md", circle = true, fallback, className, ...props }) => {
+export const Avatar = forwardRef<ElementRef<"img">, AvatarProps>(({ src, alt, size = "md", circle = true, fallback, className, ...props }, ref) => {
     return <RAvatar.Root>
         <RAvatar.Image 
+            ref={ref}
             src={src} 
             alt={alt} 
             draggable={false}
@@ -47,9 +49,9 @@ export const Avatar: React.FC<AvatarProps> = ({ src, alt, size = "md", circle = 
             {fallback ?? ""}
         </RAvatar.AvatarFallback>
     </RAvatar.Root>;
-};
+});
 
-export const AvatarGroup: React.FC<AvatarGroupProps> = ({ max, className, ...props }) => {
+export const AvatarGroup = forwardRef<ElementRef<"ul">, AvatarGroupProps>(({ max, className, ...props }, ref) => {
     const children = flattenChildren(props.children);
     
     // limit the children based on the max number of avatars
@@ -59,6 +61,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ max, className, ...pro
     const excess = max ? children.length - max : 0;
 
     return <ul 
+        ref={ref}
         className={clsx(
             "flex [&_img]:ring-4 [&_img]:ring-white [&_span>span]:ring-4 [&_span>span]:ring-white -space-x-4",
             className
@@ -68,4 +71,4 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ max, className, ...pro
         {validChildren}
         {excess > 0 && <Avatar fallback={`+${excess}`} alt={`${excess} avatars remaining`} /> }
     </ul>;
-};
+});
