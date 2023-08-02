@@ -2,10 +2,11 @@ import * as RTooltip from "@radix-ui/react-tooltip";
 import { clsx } from "clsx";
 import type { ElementRef } from "react";
 import { createContext, type ComponentPropsWithRef, useContext, forwardRef } from "react";
+import type { Side } from "../../types/common";
 
 export type SharedToolTipProps = {
     delayDuration?: number;
-    side?: "bottom" | "left" | "right" | "top";
+    side?: Exclude<Side, "center">;
     hasArrow?: boolean;
 };
 
