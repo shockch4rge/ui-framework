@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import { motion } from "framer-motion";
 import type { ElementRef } from "react";
 import { forwardRef, type ComponentProps, type ComponentPropsWithoutRef } from "react";
-import type { NoChildren, Size } from "../../types/common";
+import type { NoChildren, Position, Size } from "../../types/common";
 import { Button } from "../Button/Button";
 import { IconButton } from "../IconButton/IconButton";
 
@@ -24,7 +24,7 @@ export type DialogFooterProps = ComponentPropsWithoutRef<"footer">;
 
 export type DialogSize = Exclude<Size, "xs">;
 
-export type DialogPosition = "bc" | "bl" | "br" | "c" | "cl" | "cr" | "tc" | "tl" | "tr";
+export type DialogPosition = Position;
 
 export type DialogProps = ComponentProps<"div"> & {
     size?: DialogSize;
@@ -66,7 +66,7 @@ export const DialogFooter = forwardRef<ElementRef<"footer">, DialogFooterProps>(
     </footer>;
 });
 
-export const Dialog: React.FC<DialogProps> = ({ size = "lg", open, position = "c", children, onClose, onOpen }) => {
+export const Dialog: React.FC<DialogProps> = ({ size = "lg", open, position = "center", children, onClose, onOpen }) => {
     const sizes: Record<NonNullable<DialogSize>, string> = {
         sm: "max-w-lg",
         md: "max-w-xl",
@@ -75,27 +75,27 @@ export const Dialog: React.FC<DialogProps> = ({ size = "lg", open, position = "c
     };
 
     const positions: Record<NonNullable<DialogPosition>, string> = {
-        bc: "bottom-8 inset-x-0 mx-auto",
-        bl: "bottom-8 left-8",
-        br: "bottom-8 right-8",
-        cl: "left-8",
-        cr: "right-8",
-        tc: "top-8 inset-x-0 mx-auto",
-        tl: "top-8 left-8",
-        tr: "top-8 right-8",
-        c: "absolute-center",
+        bottomCenter: "bottom-8 inset-x-0 mx-auto",
+        bottomLeft: "bottom-8 left-8",
+        bottomRight: "bottom-8 right-8",
+        centerLeft: "left-8",
+        centerRight: "right-8",
+        topCenter: "top-8 inset-x-0 mx-auto",
+        topLeft: "top-8 left-8",
+        topRight: "top-8 right-8",
+        center: "absolute-center",
     };
 
     const initialCoords: Record<NonNullable<DialogPosition>, { x?: number; y?: number }> = {
-        bc: { y: 50, },
-        bl: { x: -50, },
-        br: { x: 50, },
-        tc: { y: -50, },
-        tl: { x: -50, },
-        tr: { x: 50, },
-        cl: { x: -50, },
-        cr: { x: 50, },
-        c: { y: 50, },
+        bottomCenter: { y: 50, },
+        bottomLeft: { x: -50, },
+        bottomRight: { x: 50, },
+        topCenter: { y: -50, },
+        topLeft: { x: -50, },
+        topRight: { x: 50, },
+        centerLeft: { x: -50, },
+        centerRight: { x: 50, },
+        center: { y: 50, },
     }; 
  
     return <RDialog.Root 
